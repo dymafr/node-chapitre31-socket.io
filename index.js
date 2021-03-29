@@ -1,11 +1,11 @@
 const socket = io();
-// const admin = io("/admin");
+const admin = io('/admin');
 
-socket.on("connect", () => {
-  console.log("connected on /");
+socket.on('connect', () => {
+  console.log('connected on /');
 });
 
-// admin.on("connect", () => {
-//   console.log("connected on admin");
-//   admin.emit("message", hello);
-// });
+admin.on('connect', () => {
+  console.log('connected on admin');
+  admin.emit('message', 'hello');
+});
