@@ -5,16 +5,15 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node --watch server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/socket.io": "^3.0.1",
-    "@types/socket.io-client": "^1.4.36",
-    "express": "^4.18.2",
-    "nodemon": "^2.0.20",
-    "socket.io": "^4.5.4"
+    "@types/socket.io": "^3.0.2",
+    "@types/socket.io-client": "^3.0.0",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
   }
 }
