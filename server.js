@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const app = express();
 const server = app.listen(4001);
 
@@ -10,7 +10,7 @@ app.get('/{*splat}', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const ios = socketio(server);
+const ios = new Server(server);
 const admin = ios.of('/admin');
 
 // ios.use((socket, next) => {
@@ -28,15 +28,17 @@ ios.on('connect', (socket) => {
 });
 
 admin.on('connect', async (socket) => {
-  // Get all clients connected to namespace /admin
-  const ids = await admin.allSockets();
-  console.log(ids);
+  // Get all clients connected to namespace /admin.
+  // allSockets() est dépréciée : fetchSockets() rend de vraies sockets,
+  // sur lesquelles on peut lire les rooms et les données attachées.
+  const sockets = await admin.fetchSockets();
+  console.log(sockets.map((s) => s.id));
 
   socket.join('room');
 
   // Get all clients connected to room 'room' in namespace '/admin'
-  const roomClientIds = await admin.to('room').allSockets();
-  console.log(roomClientIds);
+  const roomSockets = await admin.in('room').fetchSockets();
+  console.log(roomSockets.map((s) => s.id));
 
   // Emit to all namespace's sockets
   admin.emit('message', 'un message');
